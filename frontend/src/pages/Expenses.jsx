@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
-import Button from "../components/Button";
 import Modal from "../components/Modal";
 import Input from "../components/Input";
 import Select from "../components/Select";

@@ -26,6 +26,17 @@ ChartJS.register(
   Title
 );
 
+const categoryMapping = {
+  "Food": "Ăn uống",
+  "Transport": "Di chuyển",
+  "Rent": "Tiền thuê nhà",
+  "Entertainment": "Giải trí",
+  "Utilities": "Tiện ích",
+  "Health": "Sức khỏe",
+  "Shopping": "Mua sắm",
+  "Others": "Khác"
+};
+
 const Analytics = () => {
   const [categoryData, setCategoryData] = useState({ labels: [], datasets: [] });
   const [monthlyData, setMonthlyData] = useState({ labels: [], datasets: [] });
@@ -49,7 +60,7 @@ const Analytics = () => {
 
       // Category Data
       setCategoryData({
-        labels: categories.map(c => c._id),
+        labels: categories.map(c => categoryMapping[c._id] || c._id),
         datasets: [{
           label: 'Tổng chi tiêu',
           data: categories.map(c => c.totalAmount),
@@ -103,7 +114,7 @@ const Analytics = () => {
 
         setInsights({
           avgSpending: avg,
-          highestCategory: { name: highest._id, amount: highest.totalAmount },
+          highestCategory: { name: categoryMapping[highest._id] || highest._id, amount: highest.totalAmount },
           lastMonthGrowth
         });
       }

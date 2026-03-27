@@ -25,6 +25,17 @@ ChartJS.register(
   Title
 );
 
+const categoryMapping = {
+  "Food": "Ăn uống",
+  "Transport": "Di chuyển",
+  "Rent": "Tiền thuê nhà",
+  "Entertainment": "Giải trí",
+  "Utilities": "Tiện ích",
+  "Health": "Sức khỏe",
+  "Shopping": "Mua sắm",
+  "Others": "Khác"
+};
+
 const Dashboard = () => {
   const [stats, setStats] = useState({
     totalSpent: 0,
@@ -64,7 +75,7 @@ const Dashboard = () => {
       // Prepare Category Chart Data
       const categories = categoryRes.data;
       setCategoryData({
-        labels: categories.map(c => c._id),
+        labels: categories.map(c => categoryMapping[c._id] || c._id),
         datasets: [{
           data: categories.map(c => c.totalAmount),
           backgroundColor: [

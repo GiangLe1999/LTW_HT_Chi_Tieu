@@ -5,7 +5,7 @@ import Input from '../components/Input';
 import { format } from 'date-fns';
 
 const Profile = () => {
-  const { user, login } = useAuth();
+  const { user, logout, refreshUser } = useAuth();
   const [profile, setProfile] = useState({
     name: '',
     email: '',
@@ -36,9 +36,16 @@ const Profile = () => {
         name: profile.name,
         email: profile.email
       });
-      // Update local auth state if name changed
-      localStorage.setItem('token', data.token);
-      window.location.reload(); // Simple way to refresh auth context
+      // Save new token just in case email/ID changed (backend returns it)
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
+      
+      // Update global auth state without reload
+      await refreshUser();
+      
+      setMessage({ type: 'success', text: 'Cập nhật thông tin thành công!' });
+      setTimeout(() => setMessage({ type: '', text: '' }), 5000);
     } catch (error) {
       setMessage({ type: 'error', text: error.response?.data?.message || 'Cập nhật thất bại' });
     } finally {
@@ -57,8 +64,12 @@ const Profile = () => {
       await api.put('/auth/profile', {
         password: passwords.newPassword
       });
-      setMessage({ type: 'success', text: 'Đã đổi mật khẩu thành công' });
-      setPasswords({ newPassword: '', confirmPassword: '' });
+      setMessage({ type: 'success', text: 'Đã đổi mật khẩu thành công. Đang đăng xuất...' });
+      
+      // Success delay then logout as requested
+      setTimeout(() => {
+        logout();
+      }, 2000);
     } catch (error) {
       setMessage({ type: 'error', text: error.response?.data?.message || 'Đổi mật khẩu thất bại' });
     } finally {
