@@ -142,49 +142,51 @@ const Expenses = () => {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header & Controls */}
-      <div className="grid xl:grid-cols-5 grid-cols-3 gap-6">
-        <input
-          type="text"
-          placeholder="Tìm kiếm chi tiêu..."
-          className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow text-sm"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          <input
+            type="text"
+            placeholder="Tìm kiếm chi tiêu..."
+            className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow text-sm"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
-        <select
-          className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm min-w-[160px]"
-          value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-        >
-          {categories.map((cat) => (
-            <option key={cat.value} value={cat.value}>
-              {cat.label}
-            </option>
-          ))}
-        </select>
+          <select
+            className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+          >
+            {categories.map((cat) => (
+              <option key={cat.value} value={cat.value}>
+                {cat.label}
+              </option>
+            ))}
+          </select>
 
-        <Input
-          type="date"
-          className="w-full mb-0! !py-2.5 !border-gray-200 bg-white !rounded-xl !text-sm"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}
-          placeholder="Chọn ngày..."
-        />
+          <Input
+            type="date"
+            className="w-full mb-0! !py-2.5 !border-gray-200 bg-white !rounded-xl !text-sm"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            placeholder="Chọn ngày..."
+          />
 
-        <button
-          onClick={handleExportCSV}
-          className="px-6 py-2.5 bg-white border border-gray-200 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap"
-        >
-          Xuất báo cáo CSV
-        </button>
-        <button
-          onClick={() => handleOpenModal()}
-          className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap"
-        >
-          + Thêm khoản chi mới
-        </button>
+          <button
+            onClick={handleExportCSV}
+            className="w-full px-6 py-2.5 bg-white border border-gray-200 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap flex items-center justify-center gap-2"
+          >
+            Xuất báo cáo CSV
+          </button>
+          <button
+            onClick={() => handleOpenModal()}
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap flex items-center justify-center gap-2"
+          >
+            + Thêm khoản chi mới
+          </button>
+        </div>
       </div>
 
       {/* Data Table */}

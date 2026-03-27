@@ -69,14 +69,14 @@ const DebtTracker = () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
         <div>
           <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Ghi chú nợ & Cho vay</h3>
           <p className="text-slate-400 text-sm font-medium">Quản lý các khoản tiền cần trả hoặc cần thu hồi</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-medium transition-colors text-sm shadow-sm"
+          className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-medium transition-colors text-sm shadow-sm"
         >
           + Thêm bản ghi mới
         </button>

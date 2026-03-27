@@ -71,15 +71,15 @@ const Profile = () => {
       {/* Profile Header */}
       <section>
         <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">Thông tin tài khoản</h3>
-        <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 bg-slate-900 text-white rounded-full flex items-center justify-center text-2xl font-bold">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-slate-900 text-white rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold">
               {profile.name.charAt(0)}
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">{profile.name}</h2>
-              <p className="text-slate-500 font-medium">{profile.email}</p>
-              <p className="text-xs text-slate-400 mt-2">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 break-words">{profile.name}</h2>
+              <p className="text-slate-500 font-medium text-sm sm:text-base break-all">{profile.email}</p>
+              <p className="text-xs text-slate-400 mt-1 sm:mt-2">
                 Thành viên từ: {profile.createdAt ? format(new Date(profile.createdAt), 'dd/MM/yyyy') : '...'}
               </p>
             </div>
