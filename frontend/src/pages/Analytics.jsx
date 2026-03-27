@@ -37,6 +37,16 @@ const categoryMapping = {
   "Others": "Khác"
 };
 
+const getCategoryLabel = (id) => {
+  if (!id) return "Khác";
+  // Try direct match, then lowercase match
+  if (categoryMapping[id]) return categoryMapping[id];
+  
+  const entries = Object.entries(categoryMapping);
+  const found = entries.find(([key]) => key.toLowerCase() === id.toLowerCase());
+  return found ? found[1] : id;
+};
+
 const Analytics = () => {
   const [categoryData, setCategoryData] = useState({ labels: [], datasets: [] });
   const [monthlyData, setMonthlyData] = useState({ labels: [], datasets: [] });
@@ -60,7 +70,7 @@ const Analytics = () => {
 
       // Category Data
       setCategoryData({
-        labels: categories.map(c => categoryMapping[c._id] || c._id),
+        labels: categories.map(c => getCategoryLabel(c._id)),
         datasets: [{
           label: 'Tổng chi tiêu',
           data: categories.map(c => c.totalAmount),
@@ -114,7 +124,7 @@ const Analytics = () => {
 
         setInsights({
           avgSpending: avg,
-          highestCategory: { name: categoryMapping[highest._id] || highest._id, amount: highest.totalAmount },
+          highestCategory: { name: getCategoryLabel(highest._id), amount: highest.totalAmount },
           lastMonthGrowth
         });
       }

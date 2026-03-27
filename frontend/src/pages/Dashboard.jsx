@@ -36,6 +36,16 @@ const categoryMapping = {
   "Others": "Khác"
 };
 
+const getCategoryLabel = (id) => {
+  if (!id) return "Khác";
+  // Try direct match, then lowercase match
+  if (categoryMapping[id]) return categoryMapping[id];
+  
+  const entries = Object.entries(categoryMapping);
+  const found = entries.find(([key]) => key.toLowerCase() === id.toLowerCase());
+  return found ? found[1] : id;
+};
+
 const Dashboard = () => {
   const [stats, setStats] = useState({
     totalSpent: 0,
@@ -75,7 +85,7 @@ const Dashboard = () => {
       // Prepare Category Chart Data
       const categories = categoryRes.data;
       setCategoryData({
-        labels: categories.map(c => categoryMapping[c._id] || c._id),
+        labels: categories.map(c => getCategoryLabel(c._id)),
         datasets: [{
           data: categories.map(c => c.totalAmount),
           backgroundColor: [
