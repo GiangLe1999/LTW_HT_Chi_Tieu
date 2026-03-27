@@ -3,8 +3,15 @@ import DatePicker from "react-datepicker";
 import { format, parseISO, isValid } from "date-fns";
 import { vi } from "date-fns/locale";
 
-const Input = ({ label, error, icon, isCurrency, value, onChange, ...props }) => {
-  
+const Input = ({
+  label,
+  error,
+  icon,
+  isCurrency,
+  value,
+  onChange,
+  ...props
+}) => {
   // Hàm định dạng số tiền để hiển thị
   const formatCurrency = (val) => {
     if (val === "" || val === undefined || val === null) return "";
@@ -61,7 +68,7 @@ const Input = ({ label, error, icon, isCurrency, value, onChange, ...props }) =>
         {...props}
         type={isCurrency ? "text" : props.type}
         // Nếu là tiền tệ thì dùng hàm format, nếu không dùng trực tiếp value từ props
-        value={isCurrency ? formatCurrency(value) : (value || "")}
+        value={isCurrency ? formatCurrency(value) : value || ""}
         onChange={handleChange}
         className={`w-full ${
           icon ? "pl-10" : "px-4"
@@ -73,7 +80,7 @@ const Input = ({ label, error, icon, isCurrency, value, onChange, ...props }) =>
   };
 
   return (
-    <div className="mb-4">
+    <div>
       {label && (
         <label className="block text-sm font-semibold text-slate-700 mb-1.5">
           {label}
@@ -92,7 +99,9 @@ const Input = ({ label, error, icon, isCurrency, value, onChange, ...props }) =>
           </div>
         )}
       </div>
-      {error && <p className="mt-1.5 text-xs text-red-500 font-medium">{error}</p>}
+      {error && (
+        <p className="mt-1.5 text-xs text-red-500 font-medium">{error}</p>
+      )}
     </div>
   );
 };

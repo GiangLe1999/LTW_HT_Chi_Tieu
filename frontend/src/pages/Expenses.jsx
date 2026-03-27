@@ -98,33 +98,38 @@ const Expenses = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa khoản chi tiêu này không?')) {
+    if (window.confirm("Bạn có chắc chắn muốn xóa khoản chi tiêu này không?")) {
       try {
         await api.delete(`/expenses/${id}`);
         fetchExpenses();
       } catch (error) {
-        console.error('Error deleting expense:', error);
+        console.error("Error deleting expense:", error);
       }
     }
   };
 
   const handleExportCSV = async () => {
     try {
-      const response = await api.get('/expenses/export', { responseType: 'blob' });
+      const response = await api.get("/expenses/export", {
+        responseType: "blob",
+      });
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', `Bao_cao_chi_tieu_${format(new Date(), 'ddMMyyyy')}.csv`);
+      link.setAttribute(
+        "download",
+        `Bao_cao_chi_tieu_${format(new Date(), "ddMMyyyy")}.csv`,
+      );
       document.body.appendChild(link);
       link.click();
       link.remove();
     } catch (error) {
-      console.error('Error exporting CSV:', error);
-      alert('Xuất file thất bại. Vui lòng thử lại.');
+      console.error("Error exporting CSV:", error);
+      alert("Xuất file thất bại. Vui lòng thử lại.");
     }
   };
 
-  const filteredExpenses = expenses.filter(expense => {
+  const filteredExpenses = expenses.filter((expense) => {
     const matchesSearch = expense.title
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -139,55 +144,48 @@ const Expenses = () => {
   return (
     <div className="space-y-8">
       {/* Header & Controls */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="flex-1 max-w-3xl space-y-4">
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="relative flex-1 min-w-[200px]">
-              <input
-                type="text"
-                placeholder="Tìm kiếm chi tiêu..."
-                className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow text-sm"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <select
-              className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm min-w-[160px]"
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-            >
-              {categories.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
-            <div className="w-[160px]">
-              <Input
-                type="date"
-                className="!mb-0 !py-2.5 !border-gray-200 bg-white !rounded-xl !text-sm"
-                value={filterDate}
-                onChange={(e) => setFilterDate(e.target.value)}
-                placeholder="Chọn ngày..."
-              />
-            </div>
-          </div>
-          </div>
-          <div className="flex gap-3">
-          <button 
-            onClick={handleExportCSV}
-            className="px-6 py-2.5 bg-white border border-gray-200 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap"
-          >
-            Xuất báo cáo CSV
-          </button>
-          <button 
-            onClick={() => handleOpenModal()} 
-            className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap"
-          >
-            + Thêm khoản chi mới
-          </button>
-          </div>
-          </div>
+      <div className="grid xl:grid-cols-5 grid-cols-3 gap-6">
+        <input
+          type="text"
+          placeholder="Tìm kiếm chi tiêu..."
+          className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow text-sm"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <select
+          className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm min-w-[160px]"
+          value={filterCategory}
+          onChange={(e) => setFilterCategory(e.target.value)}
+        >
+          {categories.map((cat) => (
+            <option key={cat.value} value={cat.value}>
+              {cat.label}
+            </option>
+          ))}
+        </select>
+
+        <Input
+          type="date"
+          className="w-full mb-0! !py-2.5 !border-gray-200 bg-white !rounded-xl !text-sm"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}
+          placeholder="Chọn ngày..."
+        />
+
+        <button
+          onClick={handleExportCSV}
+          className="px-6 py-2.5 bg-white border border-gray-200 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap"
+        >
+          Xuất báo cáo CSV
+        </button>
+        <button
+          onClick={() => handleOpenModal()}
+          className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-medium transition-colors text-sm shadow-sm whitespace-nowrap"
+        >
+          + Thêm khoản chi mới
+        </button>
+      </div>
 
       {/* Data Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
